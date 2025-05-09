@@ -1,0 +1,60 @@
+<odoo>
+ 
+  <record id="view_form_producto" model="ir.ui.view">
+    <field name="name">inventario.producto.form</field>
+    <field name="model">inventario.producto</field>
+    <field name="arch" type="xml">
+      <form string="Producto">
+        <sheet>
+          <div class="oe_title">
+            <h1>
+              <field name="name" placeholder="Nombre del producto"/>
+            </h1>
+          </div>
+          <group>
+            <group>
+              <field name="codigo" placeholder="Código del producto"/>
+              <field name="estado" widget="badge" decoration-success="estado == 'disponible'" decoration-warning="estado == 'bajo_stock'" decoration-danger="estado == 'agotado'"/>
+              <field name="cantidad"/>
+            </group>
+            <group>
+              <field name="activo" widget="boolean_toggle"/>
+            </group>
+          </group>
+          <notebook>
+            <page string="Notas">
+              <field name="notas" placeholder="Añada notas sobre el producto..."/>
+            </page>
+          </notebook>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+<record id="view_list_producto" model="ir.ui.view">
+    <field name="name">inventario.producto.list</field>
+    <field name="model">inventario.producto</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="name"/>
+        <field name="codigo"/>
+        <field name="estado" widget="badge" decoration-success="estado == 'disponible'" decoration-warning="estado == 'bajo_stock'" decoration-danger="estado == 'agotado'"/>
+        <field name="cantidad"/>
+        <field name="activo" widget="boolean_toggle"/>
+      </list>
+    </field>
+</record>
+
+
+  
+  <record id="action_producto" model="ir.actions.act_window">
+    <field name="name">Productos</field>
+    <field name="res_model">inventario.producto</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+ 
+  <menuitem id="inventario_menu_root" name="Inventario Simple"/>
+  <menuitem id="inventario_menu_productos" name="Productos"
+            parent="inventario_menu_root" action="action_producto"/>
+</odoo>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+   
+    <record id="view_form_pedido" model="ir.ui.view">
+        <field name="name">ventas.pedido.form</field>
+        <field name="model">ventas.pedido</field>
+        <field name="arch" type="xml">
+            <form string="Pedido">
+                <header>
+                    <field name="estado" widget="statusbar" options="{'clickable': '1'}"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Número de Pedido"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="cliente"/>
+                            <field name="fecha_pedido"/>
+                            <field name="vendedor_id"/>
+                            <field name="direccion_entrega"/>
+                        </group>
+                        <group>
+                            <field name="total"/>
+                            <field name="metodo_pago"/>
+                            <field name="fecha_entrega"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Líneas de Pedido">
+                            <field name="linea_ids">
+                                <list editable="bottom">
+                                    <field name="producto_id"/>
+                                    <field name="cantidad"/>
+                                    <field name="precio_unitario"/>
+                                    <field name="subtotal"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notas">
+                            <field name="notas"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+ 
+    <record id="view_list_pedido" model="ir.ui.view">
+        <field name="name">ventas.pedido.list</field>
+        <field name="model">ventas.pedido</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="cliente"/>
+                <field name="fecha_pedido"/>
+                <field name="estado"/>
+                <field name="total" sum="Total"/>
+            </list>
+        </field>
+    </record>
+
+ 
+    <record id="view_kanban_pedido" model="ir.ui.view">
+        <field name="name">ventas.pedido.kanban</field>
+        <field name="model">ventas.pedido</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="name"/>
+                <field name="cliente"/>
+                <field name="total"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="oe_kanban_details">
+                                <strong class="o_kanban_record_title">
+                                    <field name="name"/>
+                                </strong>
+                                <div>
+                                    <strong>Cliente: </strong>
+                                    <field name="cliente"/>
+                                </div>
+                                <div>
+                                    <strong>Total: </strong>
+                                    <field name="total"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+  
+    <record id="view_graph_pedido" model="ir.ui.view">
+        <field name="name">ventas.pedido.graph</field>
+        <field name="model">ventas.pedido</field>
+        <field name="arch" type="xml">
+            <graph string="Análisis de Ventas" type="bar" sample="1">
+                <field name="fecha_pedido" interval="day"/>
+                <field name="vendedor_id"/>
+                <field name="estado"/>
+                <field name="total" type="measure"/>
+                <field name="cliente" type="row"/>
+            </graph>
+        </field>
+    </record>
+
+  
+    <record id="action_pedido" model="ir.actions.act_window">
+        <field name="name">Pedidos</field>
+        <field name="res_model">ventas.pedido</field>
+        <field name="view_mode">list,form,kanban,graph</field>
+    </record>
+
+
+    <menuitem id="ventas_menu_root" name="Ventas"/>
+    <menuitem id="ventas_menu_pedidos" name="Pedidos"
+              parent="ventas_menu_root" action="action_pedido"/>
+</odoo>

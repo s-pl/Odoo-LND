@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Form view for Departamento -->
+    <record id="view_form_departamento" model="ir.ui.view">
+        <field name="name">empleados.departamento.form</field>
+        <field name="model">empleados.departamento</field>
+        <field name="arch" type="xml">
+            <form string="Departamento">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Nombre del Departamento"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="codigo"/>
+                            <field name="fecha_creacion"/>
+                        </group>
+                        <group>
+                            <field name="presupuesto"/>
+                            <field name="activo" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Empleados">
+                            <field name="empleado_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="numero_empleado"/>
+                                    <field name="fecha_contratacion"/>
+                                    <field name="estado"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notas">
+                            <field name="notas"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- List view for Departamento -->
+    <record id="view_list_departamento" model="ir.ui.view">
+        <field name="name">empleados.departamento.list</field>
+        <field name="model">empleados.departamento</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="codigo"/>
+                <field name="presupuesto"/>
+                <field name="activo"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form view for Empleado -->
+    <record id="view_form_empleado" model="ir.ui.view">
+        <field name="name">empleados.empleado.form</field>
+        <field name="model">empleados.empleado</field>
+        <field name="arch" type="xml">
+            <form string="Empleado">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Nombre del Empleado"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="numero_empleado"/>
+                            <field name="departamento_id"/>
+                            <field name="fecha_contratacion"/>
+                        </group>
+                        <group>
+                            <field name="salario"/>
+                            <field name="estado"/>
+                            <field name="total_ventas"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Pedidos">
+                            <field name="pedido_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="fecha_pedido"/>
+                                    <field name="cliente"/>
+                                    <field name="total"/>
+                                    <field name="estado"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- List view for Empleado -->
+    <record id="view_list_empleado" model="ir.ui.view">
+        <field name="name">empleados.empleado.list</field>
+        <field name="model">empleados.empleado</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="numero_empleado"/>
+                <field name="departamento_id"/>
+                <field name="total_ventas" sum="Total Ventas"/>
+                <field name="estado"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Kanban view for Empleado -->
+    <record id="view_kanban_empleado" model="ir.ui.view">
+        <field name="name">empleados.empleado.kanban</field>
+        <field name="model">empleados.empleado</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="name"/>
+                <field name="total_ventas"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="oe_kanban_details">
+                                <strong class="o_kanban_record_title">
+                                    <field name="name"/>
+                                </strong>
+                                <div>
+                                    <strong>Ventas Totales: </strong>
+                                    <field name="total_ventas"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Graph view for Empleado -->
+    <record id="view_graph_empleado" model="ir.ui.view">
+        <field name="name">empleados.empleado.graph</field>
+        <field name="model">empleados.empleado</field>
+        <field name="arch" type="xml">
+            <graph string="Ventas por Empleado" type="bar">
+                <field name="name"/>
+                <field name="total_ventas" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="action_departamento" model="ir.actions.act_window">
+        <field name="name">Departamentos</field>
+        <field name="res_model">empleados.departamento</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_empleado" model="ir.actions.act_window">
+        <field name="name">Empleados</field>
+        <field name="res_model">empleados.empleado</field>
+        <field name="view_mode">list,form,kanban,graph</field>
+    </record>
+
+    <!-- Menus -->
+    <menuitem id="empleados_menu_root" name="Empleados"/>
+    <menuitem id="empleados_menu_departamentos" name="Departamentos"
+              parent="empleados_menu_root" action="action_departamento"/>
+    <menuitem id="empleados_menu_empleados" name="Empleados"
+              parent="empleados_menu_root" action="action_empleado"/>
+</odoo>
