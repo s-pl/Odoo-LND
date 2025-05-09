@@ -64,36 +64,6 @@
     </record>
 
  
-    <record id="view_kanban_pedido" model="ir.ui.view">
-        <field name="name">ventas.pedido.kanban</field>
-        <field name="model">ventas.pedido</field>
-        <field name="arch" type="xml">
-            <kanban>
-                <field name="name"/>
-                <field name="cliente"/>
-                <field name="total"/>
-                <templates>
-                    <t t-name="kanban-box">
-                        <div class="oe_kanban_global_click">
-                            <div class="oe_kanban_details">
-                                <strong class="o_kanban_record_title">
-                                    <field name="name"/>
-                                </strong>
-                                <div>
-                                    <strong>Cliente: </strong>
-                                    <field name="cliente"/>
-                                </div>
-                                <div>
-                                    <strong>Total: </strong>
-                                    <field name="total"/>
-                                </div>
-                            </div>
-                        </div>
-                    </t>
-                </templates>
-            </kanban>
-        </field>
-    </record>
 
   
     <record id="view_graph_pedido" model="ir.ui.view">
@@ -101,11 +71,8 @@
         <field name="model">ventas.pedido</field>
         <field name="arch" type="xml">
             <graph string="Análisis de Ventas" type="bar" sample="1">
-                <field name="fecha_pedido" interval="day"/>
-                <field name="vendedor_id"/>
-                <field name="estado"/>
+                <field name="fecha_pedido" interval="month"/>
                 <field name="total" type="measure"/>
-                <field name="cliente" type="row"/>
             </graph>
         </field>
     </record>
@@ -114,7 +81,7 @@
     <record id="action_pedido" model="ir.actions.act_window">
         <field name="name">Pedidos</field>
         <field name="res_model">ventas.pedido</field>
-        <field name="view_mode">list,form,kanban,graph</field>
+        <field name="view_mode">list,form,graph</field>
     </record>
 
 
